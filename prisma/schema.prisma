@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Confession {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  nickname   String?
+  text       String 
+  createdAt  DateTime    @default(now())
+  likes      Like[]
+  comments   Comment[]
+  shares     Int         @default(0)
+}
+
+model Like {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  confession   Confession  @relation(fields: [confessionId], references: [id], onDelete: Cascade)
+  confessionId String      @db.ObjectId
+  sessionId    String      // ✅ anonymous session identifier
+  createdAt    DateTime    @default(now())
+
+  @@unique([confessionId, sessionId]) // ✅ one like per user per confession
+}
+
+model Comment {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  confession   Confession  @relation(fields: [confessionId], references: [id], onDelete: Cascade)
+  confessionId String      @db.ObjectId
+  sessionId    String      // ✅ anonymous session identifier
+  text         String
+  createdAt    DateTime    @default(now())
+
+  @@unique([confessionId, sessionId]) // ✅ one comment per user per confession
+}
