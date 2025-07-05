@@ -96,15 +96,13 @@ import CommentSectionWrapper from "@/components/CommentSectionWrapper";
 //   ssr: false,
 // });
 
-// type Props = {
-//   params: { id: string };
-// };
+type PageProps = {
+  params: { id: string };
+};
 
 export default async function ConfessionDetailPage({
   params,
-}: {
-  params: { id: string };
-}) {
+}: PageProps) {
   const confession = await getConfessionById(params.id);
 
   if (!confession) {
