@@ -89,11 +89,15 @@ import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import CommentList from "@/components/CommentList"; // ✅ normal import
 
-type Props = {
-  params: { id: string };
-};
+// type Props = {
+//   params: { id: string };
+// };
 
-export default async function ConfessionDetailPage({ params }: Props) {
+export default async function ConfessionDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const confession = await getConfessionById(params.id);
 
   if (!confession) {
