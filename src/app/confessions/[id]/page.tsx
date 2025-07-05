@@ -87,7 +87,14 @@
 import { getConfessionById } from "@/app/actions/getConfessionById";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
-import CommentList from "@/components/CommentList"; // ✅ normal import
+// import CommentList from "@/components/CommentList"; // ✅ normal import
+
+// import dynamic from "next/dynamic";
+import CommentSectionWrapper from "@/components/CommentSectionWrapper";
+
+// const CommentList = dynamic(() => import("@/components/CommentList"), {
+//   ssr: false,
+// });
 
 // type Props = {
 //   params: { id: string };
@@ -142,7 +149,7 @@ export default async function ConfessionDetailPage({
           </h3>
 
           {/* ✅ CommentList is now a client component */}
-          <CommentList confessionId={params.id} />
+          <CommentSectionWrapper confessionId={params.id} />
         </div>
       </div>
     </div>
